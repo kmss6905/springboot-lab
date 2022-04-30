@@ -1,0 +1,5 @@
+server:
+  port: 8080
+order:
+  host: http://localhost:8081
+  path: /v1/orders
