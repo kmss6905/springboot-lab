@@ -2,7 +2,6 @@ package com.example.springwebclientdemoserver.repository;
 
 import com.example.springwebclientdemoserver.dto.OrderDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
