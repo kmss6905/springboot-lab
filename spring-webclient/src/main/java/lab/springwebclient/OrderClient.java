@@ -18,8 +18,15 @@ public class OrderClient {
     private static final Logger logger = LoggerFactory.getLogger(OrderClient.class);
     private final WebClient webClient;
 
-    @Autowired
-    public OrderClient(OrderProperties orderProperties) {
+    // 수정 baseUrl 을 주입할 수 있도록 함
+    public OrderClient(WebClient.Builder webClientBuilder) {
+        this.webClient = webClientBuilder
+                .defaultHeader(HttpHeaders.USER_AGENT)
+                .filter(logRequest())
+                .build();
+    }
+
+    public OrderClient() {
         this.webClient = WebClient.builder()
                 .baseUrl("http://localhost:8081")
                 .defaultHeader(HttpHeaders.USER_AGENT)
