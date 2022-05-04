@@ -1,5 +1,6 @@
 package com.example.springcorebasic.order;
 
+import com.example.springcorebasic.config.AppConfig;
 import com.example.springcorebasic.member.Grade;
 import com.example.springcorebasic.member.Member;
 import com.example.springcorebasic.member.MemberRepository;
@@ -20,8 +21,11 @@ public class OrderServiceTest {
         Member member = new Member(1L, "민식", Grade.VIP);
         memberRepository.save(member);
 
+        // 추가 (어떤 구현체를 사용할 지는 config 가 담당함)
+        AppConfig appConfig = new AppConfig();
+
         // when
-        OrderService orderService = new OrderServiceImpl();
+        OrderService orderService = appConfig.orderService();
         Order order = orderService.createOrder(1L, "닌텐도", 4000);
 
         // then
@@ -39,8 +43,11 @@ public class OrderServiceTest {
         Member member = new Member(1L, "민식", Grade.BASIC);
         memberRepository.save(member);
 
+        // 추가 (어떤 구현체를 사용할 지는 config 가 담당함)
+        AppConfig appConfig = new AppConfig();
+
         // when
-        OrderService orderService = new OrderServiceImpl();
+        OrderService orderService = appConfig.orderService();
         Order order = orderService.createOrder(1L, "닌텐도", 4000);
 
         // then

@@ -1,5 +1,6 @@
 package com.example.springcorebasic;
 
+import com.example.springcorebasic.config.AppConfig;
 import com.example.springcorebasic.member.Grade;
 import com.example.springcorebasic.member.Member;
 import com.example.springcorebasic.member.MemberService;
@@ -7,7 +8,8 @@ import com.example.springcorebasic.member.MemberServiceImpl;
 
 public class MemberApp {
     public static void main(String[] args) {
-        MemberService memberService = new MemberServiceImpl();
+        AppConfig appConfig = new AppConfig();
+        MemberService memberService = appConfig.memberService();
         Member memberA = new Member(1L, "memberA", Grade.VIP);
         memberService.join(memberA);
 
