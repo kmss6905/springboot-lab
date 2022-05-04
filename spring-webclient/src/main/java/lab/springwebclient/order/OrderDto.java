@@ -1,4 +1,4 @@
-package com.example.springwebclientdemoserver.dto;
+package lab.springwebclient.order;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
