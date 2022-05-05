@@ -9,6 +9,7 @@ import org.springframework.beans.PropertyBatchUpdateException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@DisplayName("할인정책 - 정률계산 테스트")
 public class RateDiscountPolicyTest {
 
     @Test

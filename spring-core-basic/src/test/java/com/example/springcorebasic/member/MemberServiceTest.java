@@ -1,12 +1,12 @@
 package com.example.springcorebasic.member;
 
 import com.example.springcorebasic.config.AppConfig;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.*;
 
+@DisplayName("회원서비스 테스트")
 public class MemberServiceTest {
 
     @Test

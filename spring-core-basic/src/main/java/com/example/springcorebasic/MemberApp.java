@@ -4,7 +4,6 @@ import com.example.springcorebasic.config.AppConfig;
 import com.example.springcorebasic.member.Grade;
 import com.example.springcorebasic.member.Member;
 import com.example.springcorebasic.member.MemberService;
-import com.example.springcorebasic.member.MemberServiceImpl;
 
 public class MemberApp {
     public static void main(String[] args) {

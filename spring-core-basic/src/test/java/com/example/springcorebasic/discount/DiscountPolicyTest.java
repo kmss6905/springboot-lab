@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@DisplayName("할인정책 테스트")
 public class DiscountPolicyTest {
 
     @Test
