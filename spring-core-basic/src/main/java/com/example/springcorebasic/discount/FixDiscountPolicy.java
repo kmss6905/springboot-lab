@@ -2,6 +2,9 @@ package com.example.springcorebasic.discount;
 
 import com.example.springcorebasic.member.Grade;
 import com.example.springcorebasic.member.Member;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.stereotype.Component;
+
 
 public class FixDiscountPolicy implements DiscountPolicy{
     private static final int discountFixAmount = 1000;

@@ -1,6 +1,6 @@
 package com.example.springcorebasic.order;
 
-import com.example.springcorebasic.config.AppConfig;
+import com.example.springcorebasic.AppConfig;
 import com.example.springcorebasic.member.Grade;
 import com.example.springcorebasic.member.Member;
 import com.example.springcorebasic.member.MemberRepository;

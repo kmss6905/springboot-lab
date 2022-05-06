@@ -1,8 +1,8 @@
 package com.example.springcorebasic.config;
 
+import com.example.springcorebasic.AppConfig;
 import com.example.springcorebasic.discount.DiscountPolicy;
 import com.example.springcorebasic.discount.RateDiscountPolicy;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

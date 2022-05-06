@@ -1,4 +1,4 @@
-package com.example.springcorebasic.config;
+package com.example.springcorebasic;
 
 import com.example.springcorebasic.discount.DiscountPolicy;
 import com.example.springcorebasic.discount.RateDiscountPolicy;
