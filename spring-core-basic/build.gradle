@@ -29,6 +29,13 @@ dependencies {
 
     // logback
     implementation 'ch.qos.logback:logback-core:1.2.11'
+
+    // DL
+    implementation 'javax.inject:javax.inject:1'
+
+    // web
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
     implementation 'org.springframework.boot:spring-boot-starter'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
