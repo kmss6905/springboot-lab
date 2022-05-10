@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="reactor.ReactorTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2022-05-09T14:54:22" hostname="minshikui-MacBookPro.local" time="0.065">
+<testsuite name="reactor.ReactorTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2022-05-09T15:03:06" hostname="minshikui-MacBookPro.local" time="0.071">
   <properties/>
-  <testcase name="monoTest()" classname="reactor.ReactorTest" time="0.065"/>
-  <system-out><![CDATA[[ INFO] (Test worker) | onSubscribe([Synchronous Fuseable] FluxArray.ArraySubscription)
-[ INFO] (Test worker) | request(2)
-[ INFO] (Test worker) | onNext(1)
-[ INFO] (Test worker) | onNext(2)
+  <testcase name="concurrencyTest()" classname="reactor.ReactorTest" time="0.071"/>
+  <system-out><![CDATA[[ INFO] (parallel-1) | onSubscribe([Synchronous Fuseable] FluxArray.ArraySubscription)
+[ INFO] (parallel-1) | request(unbounded)
+[ INFO] (parallel-1) | onNext(1)
+[ INFO] (parallel-1) | onNext(2)
+[ INFO] (parallel-1) | onNext(3)
+[ INFO] (parallel-1) | onNext(4)
+[ INFO] (parallel-1) | onComplete()
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

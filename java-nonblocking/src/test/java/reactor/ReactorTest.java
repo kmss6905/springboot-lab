@@ -1,14 +1,15 @@
 package reactor;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
 import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Schedulers;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class ReactorTest {
 
@@ -47,6 +48,17 @@ public class ReactorTest {
                     }
                 });
 
-        Assertions.assertThat(elements).containsExactly(1, 2);
+        assertThat(elements).containsExactly(1, 2);
+    }
+
+    @Test
+    void concurrencyTest(){
+        List<Integer> elements = new ArrayList<>();
+        Flux.just(1,2,3,4)
+                .log()
+                .map( i -> i * 2)
+                .subscribeOn(Schedulers.parallel())
+                .subscribe(elements::add);
+        assertThat(elements).containsExactly(2,4,6,8);
     }
 }
