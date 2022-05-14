@@ -9,11 +9,11 @@ public class OrderServiceImpl implements OrderService{
     }
 
     @Override
-    public Order getOrderById(Integer orderId) {
+    public BookOrder getOrderById(Long orderId) {
         return findOrder(orderId);
     }
 
-    public Order findOrder(Integer orderId){
+    public BookOrder findOrder(Long orderId){
         return orderRepository.findById(orderId)
                 .orElseThrow(() -> new RuntimeException("not found order"));
     }

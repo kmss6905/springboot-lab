@@ -1,24 +1,25 @@
 package com.example.springtestcode.order;
 
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class OrderServiceTest {
+public class BookOrderServiceTest {
 
+    @InjectMocks
     private OrderService orderService;
 
     @Test
     void getOrderByName(){
         // given
-        Integer orderId = 2;
+        Long orderId = 2L;
 
         // when
-        Order order = orderService.getOrderById(orderId);
+        BookOrder bookOrder = orderService.getOrderById(orderId);
 
         // then
-        assertThat(order).isEqualTo(new Order("hello", 2));
+        assertThat(bookOrder).isEqualTo(new BookOrder("hello", 2L));
     }
 }

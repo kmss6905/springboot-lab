@@ -1,9 +1,21 @@
 package com.example.springtestcode.order;
 
-public class Order {
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
+
+@Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class BookOrder {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
+    private Long id;
+
+    @Column(name = "user_name")
     private String userName;
-    private Integer id;
 
     public String getUserName() {
         if(this.userName == null && this.userName.isBlank()){
@@ -12,14 +24,14 @@ public class Order {
         return userName;
     }
 
-    public Integer getId() {
+    public Long getId() {
         if(this.id == null){
             throw new RuntimeException("order id can't be null or blank");
         }
         return id;
     }
 
-    public Order(String userName, Integer id) {
+    public BookOrder(String userName, Long id) {
         this.userName = userName;
         this.id = id;
     }
