@@ -26,11 +26,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 @ActiveProfiles("test")
 @Testcontainers
 @Slf4j
-@ContextConfiguration(initializers = BookOrderRepositoryTest.ContainerPropertyInitializer.class)
-public class BookOrderRepositoryTest {
+@ContextConfiguration(initializers = BookBookOrderRepositoryTest.ContainerPropertyInitializer.class)
+public class BookBookOrderRepositoryTest {
 
     @Autowired
-    private OrderRepository orderRepository;
+    private BookOrderRepository bookOrderRepository;
 
     @Autowired
     Environment environment;
@@ -55,7 +55,7 @@ public class BookOrderRepositoryTest {
     @Test
     @DisplayName("주문 번호 id(Long) 로 주문 찾기 - 성공")
     void findByOrderId() {
-        BookOrder save = orderRepository.save(new BookOrder("hello", 123L));
+        BookOrder save = bookOrderRepository.save(new BookOrder("hello", 123L));
         BookOrder bookOrder = findOrder(save.getId());
         assertThat(bookOrder.getId()).isEqualTo(save.getId());
     }
@@ -70,7 +70,7 @@ public class BookOrderRepositoryTest {
     }
 
     public BookOrder findOrder(Long orderId) {
-        return orderRepository.findById(orderId)
+        return bookOrderRepository.findById(orderId)
                 .orElseThrow(() -> new RuntimeException("not found order"));
     }
 

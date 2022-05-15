@@ -2,10 +2,10 @@ package com.example.springtestcode.order;
 
 public class OrderServiceImpl implements OrderService{
 
-    private final OrderRepository orderRepository;
+    private final BookOrderRepository bookOrderRepository;
 
-    public OrderServiceImpl(OrderRepository orderRepository) {
-        this.orderRepository = orderRepository;
+    public OrderServiceImpl(BookOrderRepository bookOrderRepository) {
+        this.bookOrderRepository = bookOrderRepository;
     }
 
     @Override
@@ -14,7 +14,7 @@ public class OrderServiceImpl implements OrderService{
     }
 
     public BookOrder findOrder(Long orderId){
-        return orderRepository.findById(orderId)
+        return bookOrderRepository.findById(orderId)
                 .orElseThrow(() -> new RuntimeException("not found order"));
     }
 }
