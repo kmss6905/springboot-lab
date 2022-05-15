@@ -9,8 +9,6 @@ public class OrderController {
 
     @GetMapping("/v1/orders/{orderId}")
     BookOrder getOrder(@PathVariable Long orderId){
-
-
         return new BookOrder("minshik", orderId);
     }
 }

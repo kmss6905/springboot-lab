@@ -1,22 +1,32 @@
 package com.example.springtestcode.order;
 
 
+import com.example.springtestcode.Order;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.jetbrains.annotations.NotNull;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.io.File;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.params.provider.Arguments.arguments;
 import static org.mockito.Mockito.when;
 
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @ExtendWith(MockitoExtension.class)
 public class BookOrderServiceTest {
 
@@ -54,8 +64,39 @@ public class BookOrderServiceTest {
         );
     }
 
-    @Test
+    @ParameterizedTest(name = "[{index}/4], {displayName}, {arguments}")
     @DisplayName("책 주문 번호 id(Long) 로 책 주문 찾기 - 실패, 존재하지 않는 주문")
-    void getBookOrderGivenNonExisted(){
+//    @MethodSource("orderedArguments")
+    @ValueSource(longs = {0L, 9999L, 2183912839128939218L, 4L})
+    void getBookOrderGivenNonExisted(long orderId){
+
+        // then
+        assertThatThrownBy(() -> orderService.getOrderById(orderId))
+                .isInstanceOf(RuntimeException.class)
+                .hasMessageContaining("not found order");
     }
+
+    @NotNull
+    private Stream<Arguments> orderedArguments() {
+        return Stream.of(
+                arguments(Named.of("중요한 값 반드시 통과해야함.", new BookOrder("book", 0L))),
+                arguments(Named.of("default", new BookOrder("book", 0L))),
+                arguments(Named.of("default", new BookOrder("book", 0L))),
+                arguments(Named.of("default", new BookOrder("book", 0L)))
+        );
+    }
+
+//    // 별도로 따로 메서드로부터 가져올 수도 있다.
+//    @DisplayName("A parameterized test with named arguments")
+//    @ParameterizedTest(name = "{index}: {0}") // ?
+//    @MethodSource("namedArguments")
+//    void testWithNamedArguments(File file) {
+//        System.out.println(file.getName());
+//    }
+//
+//    // argument 타입으로 만든다. -> 장점. 테스트 건마다의 부연 설명을 작성할 수 있다.
+//    static Stream<Arguments> namedArguments() {
+//        return Stream.of(arguments(Named.of("An important file", new File("path1"))),
+//                arguments(Named.of("Another file", new File("path2"))));
+//    }
 }
