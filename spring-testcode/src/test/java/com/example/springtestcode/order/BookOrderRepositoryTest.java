@@ -1,11 +1,18 @@
 package com.example.springtestcode.order;
 
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.util.TestPropertyValues;
+import org.springframework.context.ApplicationContextInitializer;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.core.env.Environment;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.ContextConfiguration;
 import org.testcontainers.containers.MariaDBContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
@@ -14,27 +21,35 @@ import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
-@Testcontainers
 @SpringBootTest
+@ExtendWith(MockitoExtension.class)
+@ActiveProfiles("test")
+@Testcontainers
+@Slf4j
+@ContextConfiguration(initializers = BookOrderRepositoryTest.ContainerPropertyInitializer.class)
 public class BookOrderRepositoryTest {
 
     @Autowired
     private OrderRepository orderRepository;
 
+    @Autowired
+    Environment environment;
+
+    // 바인딩과 동시에 타입캐스팅
+    @Value("${container.port}") int port;
+
     @Container
     private static final MariaDBContainer mariaDBContainer = new MariaDBContainer("mariadb:10.3")
             .withDatabaseName("test");
 
+    @BeforeEach
+    void beforeEach(){
+        System.out.println("=============================================");
+        System.out.println("port = " + port);
+        System.out.println("from enviroment = " + environment.getProperty("container.port"));
 
-    @BeforeAll
-    static void beforeAll() {
-        mariaDBContainer.start();
-        System.out.println("mariaDBContainer.getJdbcUrl() : " + mariaDBContainer.getJdbcUrl());
-    }
-
-    @AfterAll
-    static void afterAll() {
-        mariaDBContainer.stop();
+        // stream log to host console
+        System.out.println(mariaDBContainer.getLogs());
     }
 
     @Test
@@ -57,5 +72,15 @@ public class BookOrderRepositoryTest {
     public BookOrder findOrder(Long orderId) {
         return orderRepository.findById(orderId)
                 .orElseThrow(() -> new RuntimeException("not found order"));
+    }
+
+    // 프로퍼티 추가 ( 동적으로 추가하기)
+    static class ContainerPropertyInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext>{
+
+        @Override
+        public void initialize(ConfigurableApplicationContext context) {
+            TestPropertyValues.of("container.port=" + mariaDBContainer.getMappedPort(3306))
+                    .applyTo(context.getEnvironment());
+        }
     }
 }
