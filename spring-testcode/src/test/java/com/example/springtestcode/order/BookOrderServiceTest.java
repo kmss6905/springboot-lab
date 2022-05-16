@@ -28,7 +28,8 @@ import static org.mockito.Mockito.when;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @ExtendWith(MockitoExtension.class)
-public class BookOrderServiceTest {
+@DisplayName("책 주문 서비스 테스트")
+class BookOrderServiceTest {
 
     @Mock
     BookOrderRepository bookOrderRepository;
@@ -74,6 +75,17 @@ public class BookOrderServiceTest {
         assertThatThrownBy(() -> orderService.getOrderById(orderId))
                 .isInstanceOf(RuntimeException.class)
                 .hasMessageContaining("not found order");
+    }
+
+    @Test
+    @DisplayName("책 생성하기")
+    void createBookOrder(){
+        BookOrderDto bookOrderDto = new BookOrderDto(
+                "홍길동전", "김민식", 10000L
+        );
+        bookOrderRepository.save(bookOrderDto.to());
+
+
     }
 
     @NotNull

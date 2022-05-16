@@ -27,7 +27,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Testcontainers
 @Slf4j
 @ContextConfiguration(initializers = BookBookOrderRepositoryTest.ContainerPropertyInitializer.class)
-public class BookBookOrderRepositoryTest {
+@DisplayName("책 주문 리포지토리 테스트")
+class BookBookOrderRepositoryTest {
 
     @Autowired
     private BookOrderRepository bookOrderRepository;
@@ -74,7 +75,7 @@ public class BookBookOrderRepositoryTest {
                 .orElseThrow(() -> new RuntimeException("not found order"));
     }
 
-    // 프로퍼티 추가 ( 동적으로 추가하기)
+    // 프로퍼티 추가 ( 동적으로 추가하기) -> 스프링이 테스트 컨테이어 존재를 알 수 있게끔 한다.
     static class ContainerPropertyInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext>{
 
         @Override

@@ -1,12 +1,13 @@
 package com.example.springtestcode.order;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+@Service
+@RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService{
 
     private final BookOrderRepository bookOrderRepository;
-
-    public OrderServiceImpl(BookOrderRepository bookOrderRepository) {
-        this.bookOrderRepository = bookOrderRepository;
-    }
 
     @Override
     public BookOrder getOrderById(Long orderId) {

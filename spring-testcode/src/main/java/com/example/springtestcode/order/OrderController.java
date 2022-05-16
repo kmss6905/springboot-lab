@@ -1,14 +1,26 @@
 package com.example.springtestcode.order;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequiredArgsConstructor
 public class OrderController {
+
+    private final OrderService orderService;
 
     @GetMapping("/v1/orders/{orderId}")
     BookOrder getOrder(@PathVariable Long orderId){
-        return new BookOrder("minshik", orderId);
+        return orderService.getOrderById(orderId);
+    }
+
+    @PostMapping("/v1/order")
+    ResponseEntity<?> createOrder(
+        @RequestBody BookOrderDto bookOrderDto
+    ){
+
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 }
