@@ -20,7 +20,16 @@ public class OrderController {
     ResponseEntity<?> createOrder(
         @RequestBody BookOrderDto bookOrderDto
     ){
-
+        orderService.createBookOrder(bookOrderDto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
+
+    @DeleteMapping("/v1/order")
+    ResponseEntity<?> deleteOrder(
+        @RequestBody BookOrderNumber orderNumber
+    ){
+        orderService.deleteOrder(orderNumber);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
 }
+

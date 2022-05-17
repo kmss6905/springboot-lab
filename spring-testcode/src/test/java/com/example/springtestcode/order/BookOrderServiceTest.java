@@ -1,34 +1,32 @@
 package com.example.springtestcode.order;
 
 
-import com.example.springtestcode.Order;
-import org.assertj.core.api.Assertions;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.io.File;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @ExtendWith(MockitoExtension.class)
 @DisplayName("책 주문 서비스 테스트")
+@MockitoSettings(strictness = Strictness.LENIENT)
 class BookOrderServiceTest {
 
     @Mock
@@ -78,14 +76,41 @@ class BookOrderServiceTest {
     }
 
     @Test
-    @DisplayName("책 생성하기")
+    @DisplayName("책 주문 생성하기 - 성공")
     void createBookOrder(){
-        BookOrderDto bookOrderDto = new BookOrderDto(
-                "홍길동전", "김민식", 10000L
+        // given
+        BookOrderDto bookOrderDto = new BookOrderDto("홍길동전", "김민식", 10000L);
+        System.out.println(bookOrderDto);
+        System.out.println(bookOrderDto.to());
+
+        when(bookOrderRepository.save(any())).thenReturn(bookOrderDto.to());
+
+        // when
+        orderService = new OrderServiceImpl(bookOrderRepository);
+        BookOrderDto bookOrder = orderService.createBookOrder(bookOrderDto);
+
+        // then
+        assertThat(bookOrder).satisfies(
+                it -> {
+                    assertThat(it.bookName).isEqualTo("홍길동전");
+                    assertThat(it.consumerName).isEqualTo("김민식");
+                }
         );
-        bookOrderRepository.save(bookOrderDto.to());
+    }
 
+    @Test
+    @DisplayName("책 주문 취소하기 - 성공")
+    void deleteBookOrder(){
+        // given
+        BookOrderNumber bookOrderNumber = new BookOrderNumber(9999L);
+        BookOrder order = new BookOrder(9999L, "minshik", "hello world");
+        when(bookOrderRepository.findById(9999L)).thenReturn(Optional.of(order));
 
+        // when
+        Long bookOrderId = orderService.deleteOrder(bookOrderNumber);
+
+        // then
+        assertThat(bookOrderId).isEqualTo(bookOrderNumber.getOrderId());
     }
 
     @NotNull

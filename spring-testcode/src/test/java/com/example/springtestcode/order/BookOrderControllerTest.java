@@ -1,17 +1,17 @@
 package com.example.springtestcode.order;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.context.annotation.Import;
-import org.springframework.data.domain.jaxb.SpringDataJaxb;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -22,8 +22,8 @@ class BookOrderControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @Autowired
-    private OrderServiceImpl orderService;
+    @MockBean
+    private OrderService orderService;
 
     @Autowired
     ObjectMapper objectMapper;
@@ -36,9 +36,16 @@ class BookOrderControllerTest {
     @Test
     @DisplayName("주문번호 id (Long) 로 책 주문 가져오기 - 성공")
     public void getOrderWhenGivenOrderId() throws Exception{
-        mockMvc.perform(MockMvcRequestBuilders.get("/v1/orders/{orderId}", 1L))
+
+        // given
+        BookOrder bookOrder = new BookOrder(1L, "hello", "홍길동전");
+        when(orderService.getOrderById(1L)).thenReturn(bookOrder);
+
+        // then
+        mockMvc.perform(get("/v1/orders/{orderId}", 1L))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("userName").value("hello"));
+                .andExpect(jsonPath("userName").value("hello"))
+                .andExpect(jsonPath("bookName").value("홍길동전"));
     }
 
     @Test
@@ -55,5 +62,16 @@ class BookOrderControllerTest {
                                 .content(valueAsString)
                                 .contentType("application/json"))
                 .andExpect(status().isCreated());
+    }
+
+    @Test
+    @DisplayName("책 주문 취소하기")
+    public void deleteOrder() throws Exception{
+        BookOrderNumber orderNumber = new BookOrderNumber(1L);
+        String valueAsString = objectMapper.writeValueAsString(orderNumber);
+        mockMvc.perform(MockMvcRequestBuilders.delete("/v1/order")
+                        .content(valueAsString)
+                        .contentType("application/json"))
+                .andExpect(status().isOk());
     }
 }

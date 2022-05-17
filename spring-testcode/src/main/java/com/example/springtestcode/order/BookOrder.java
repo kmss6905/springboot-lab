@@ -1,12 +1,14 @@
 package com.example.springtestcode.order;
 
-import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 
 @Entity
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
+@ToString
 public class BookOrder {
 
     @Id
@@ -28,9 +30,6 @@ public class BookOrder {
     }
 
     public Long getId() {
-        if(this.id == null){
-            throw new RuntimeException("order id can't be null or blank");
-        }
         return id;
     }
 
@@ -50,11 +49,15 @@ public class BookOrder {
         this.bookName = bookName;
     }
 
-    public void setBookName(String bookName) {
-        this.bookName = bookName;
+    public BookOrderDto toDto(){
+        return new BookOrderDto(
+                this.bookName, this.userName, this.id
+        );
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public String getBookName() {
+        return bookName;
     }
+
+
 }

@@ -1,24 +1,26 @@
 package com.example.springtestcode.order;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 // TODO validation 추가
 @Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class BookOrderDto{
     String bookName;
     String consumerName;
     Long bookPrice;
+    Long id;
 
     public BookOrder to(){
-        BookOrder bookOrder = new BookOrder();
-        bookOrder.setUserName(this.consumerName);
-        bookOrder.setBookName(this.bookName);
-        return bookOrder;
+        return new BookOrder(consumerName, bookName);
+    }
+
+    public BookOrderDto(String bookName, String consumerName, Long bookPrice) {
+        this.bookName = bookName;
+        this.consumerName = consumerName;
+        this.bookPrice = bookPrice;
     }
 }
