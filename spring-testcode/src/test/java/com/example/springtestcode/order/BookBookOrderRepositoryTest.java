@@ -83,7 +83,7 @@ class BookBookOrderRepositoryTest {
     @Test
     @DisplayName("주문 저장하기")
     void saveBookOrder(){
-        BookOrder bookOrder = new BookOrder(1921L,"minshik", "hello");
+        BookOrder bookOrder = new BookOrder("minshik", "hello");
         BookOrder save = bookOrderRepository.save(bookOrder);
 
         assertThat(save).satisfies(

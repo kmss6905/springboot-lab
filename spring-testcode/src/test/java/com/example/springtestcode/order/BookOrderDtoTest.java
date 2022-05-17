@@ -29,7 +29,7 @@ public class BookOrderDtoTest {
     @DisplayName("책 주문 entity 에서 dto 전환 - ")
     void bookOrderEntityToDto(){
         // given
-        BookOrder bookOrder = new BookOrder(1L, "김민식", "홍길동전");
+        BookOrder bookOrder = new BookOrder("김민식", "홍길동전");
 
         // when
         BookOrderDto orderDto = bookOrder.toDto();

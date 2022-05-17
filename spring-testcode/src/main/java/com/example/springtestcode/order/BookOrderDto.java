@@ -6,7 +6,6 @@ import lombok.*;
 // TODO validation 추가
 @Getter @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @ToString
 public class BookOrderDto{
     String bookName;

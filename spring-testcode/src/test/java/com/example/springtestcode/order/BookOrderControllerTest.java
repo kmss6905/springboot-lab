@@ -38,7 +38,7 @@ class BookOrderControllerTest {
     public void getOrderWhenGivenOrderId() throws Exception{
 
         // given
-        BookOrder bookOrder = new BookOrder(1L, "hello", "홍길동전");
+        BookOrder bookOrder = new BookOrder("hello", "홍길동전");
         when(orderService.getOrderById(1L)).thenReturn(bookOrder);
 
         // then

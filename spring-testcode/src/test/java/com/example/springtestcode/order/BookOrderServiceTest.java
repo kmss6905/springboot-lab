@@ -103,7 +103,7 @@ class BookOrderServiceTest {
     void deleteBookOrder(){
         // given
         BookOrderNumber bookOrderNumber = new BookOrderNumber(9999L);
-        BookOrder order = new BookOrder(9999L, "minshik", "hello world");
+        BookOrder order = new BookOrder("minshik", "hello world");
         when(bookOrderRepository.findById(9999L)).thenReturn(Optional.of(order));
 
         // when

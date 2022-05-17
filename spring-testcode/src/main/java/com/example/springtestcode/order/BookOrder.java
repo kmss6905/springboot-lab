@@ -1,14 +1,11 @@
 package com.example.springtestcode.order;
 
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
 
 import javax.persistence.*;
 
 @Entity
 @NoArgsConstructor
-@ToString
 public class BookOrder {
 
     @Id
@@ -23,7 +20,7 @@ public class BookOrder {
     private String bookName;
 
     public String getUserName() {
-        if(this.userName == null && this.userName.isBlank()){
+        if(this.userName == null || this.userName.isBlank()){
             throw new RuntimeException("order user name can't be null or blank");
         }
         return userName;
@@ -33,15 +30,13 @@ public class BookOrder {
         return id;
     }
 
-    public BookOrder(Long id, String userName, String bookName) {
-        this.id = id;
-        this.userName = userName;
-        this.bookName = bookName;
-    }
-
     public BookOrder(String userName, Long id) {
         this.id = id;
         this.userName = userName;
+    }
+
+    public BookOrder(String bookName) {
+        this.bookName = bookName;
     }
 
     public BookOrder(String userName, String bookName) {
@@ -50,14 +45,11 @@ public class BookOrder {
     }
 
     public BookOrderDto toDto(){
-        return new BookOrderDto(
-                this.bookName, this.userName, this.id
-        );
+        return new BookOrderDto(this.bookName, this.userName, this.id);
     }
 
     public String getBookName() {
         return bookName;
     }
-
 
 }
