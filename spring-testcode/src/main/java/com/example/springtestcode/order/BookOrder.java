@@ -48,8 +48,14 @@ public class BookOrder {
         return new BookOrderDto(this.bookName, this.userName, this.id);
     }
 
+    // 주문 변경
+    public void updateBookOrder(BookOrderDto orderDto){
+        if(orderDto.getBookName() != null && !orderDto.getBookName().isBlank()){
+            this.bookName = orderDto.getBookName();
+        }
+    }
+
     public String getBookName() {
         return bookName;
     }
-
 }

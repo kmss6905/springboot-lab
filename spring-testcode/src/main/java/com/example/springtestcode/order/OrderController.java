@@ -31,5 +31,13 @@ public class OrderController {
         orderService.deleteOrder(orderNumber);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
+
+    @PatchMapping("/v1/order/{orderId}")
+    ResponseEntity<?> updateOrder(
+            @PathVariable Long orderId,
+            @RequestBody BookOrderDto bookOrderDto
+    ){
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
 }
 

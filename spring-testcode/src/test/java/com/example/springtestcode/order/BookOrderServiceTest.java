@@ -15,13 +15,13 @@ import org.mockito.quality.Strictness;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.BDDMockito.then;
+import static org.mockito.Mockito.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @ExtendWith(MockitoExtension.class)
@@ -111,6 +111,26 @@ class BookOrderServiceTest {
 
         // then
         assertThat(bookOrderId).isEqualTo(bookOrderNumber.getOrderId());
+    }
+
+    @Test
+    @DisplayName("책 주문 변경하기 - 성공")
+    void updateBookOrder(){
+        // given
+        BookOrder bookOrder = new BookOrder("minshikbye", 1L);
+        when(bookOrderRepository.findById(1L)).thenReturn(Optional.of(bookOrder));
+
+        // when
+        BookOrderDto bookOrderDto = new BookOrderDto("minshik hello");
+        orderService = new OrderServiceImpl(bookOrderRepository);
+        BookOrderDto bookOrderDtoResponse = orderService.updateOrder(1L, bookOrderDto);
+
+        assertThat(bookOrderDtoResponse.getBookName())
+                .isEqualTo("minshik hello");
+
+        then(bookOrderRepository)
+                .should(times(1))
+                .findById(1L);
     }
 
     @NotNull

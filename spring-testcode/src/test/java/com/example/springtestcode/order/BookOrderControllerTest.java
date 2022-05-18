@@ -74,4 +74,16 @@ class BookOrderControllerTest {
                         .contentType("application/json"))
                 .andExpect(status().isOk());
     }
+
+    @Test
+    @DisplayName("주문 내용 변경하기 - 관리자")
+    public void updateOrder() throws Exception{
+        BookOrderDto bookOrderDto = new BookOrderDto("hello minshik");
+        String valueAsString = objectMapper.writeValueAsString(bookOrderDto);
+
+        mockMvc.perform(MockMvcRequestBuilders.patch("/v1/order/1")
+                .content(valueAsString)
+                .contentType("application/json")
+        ).andExpect(status().isOk());
+    }
 }

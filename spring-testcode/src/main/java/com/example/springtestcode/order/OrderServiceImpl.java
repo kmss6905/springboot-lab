@@ -24,6 +24,14 @@ public class OrderServiceImpl implements OrderService{
     }
 
     @Override
+    public BookOrderDto updateOrder(Long orderId, BookOrderDto bookOrderDto) {
+        BookOrder findBookOrder = findOrder(orderId);
+        System.out.println(findBookOrder);
+        findBookOrder.updateBookOrder(bookOrderDto);
+        return findBookOrder.toDto();
+    }
+
+    @Override
     public Long deleteOrder(BookOrderNumber bookOrderNumber) {
         BookOrder findBookOrder = findOrder(bookOrderNumber.getOrderId());
         bookOrderRepository.delete(findBookOrder);
