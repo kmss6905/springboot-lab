@@ -1,8 +1,8 @@
-package hello.servlet.web.frontcontroller;
+package hello.servlet.web.frontcontroller.v1;
 
-import hello.servlet.web.frontcontroller.v1.MvcMemberFormControllerV1;
-import hello.servlet.web.frontcontroller.v1.MvcMemberListControllerV1;
-import hello.servlet.web.frontcontroller.v1.MvcMemberSaveControllerV1;
+import hello.servlet.web.frontcontroller.v1.controller.MvcMemberFormControllerV1;
+import hello.servlet.web.frontcontroller.v1.controller.MvcMemberListControllerV1;
+import hello.servlet.web.frontcontroller.v1.controller.MvcMemberSaveControllerV1;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -30,6 +30,7 @@ public class FrontControllerServletV1 extends HttpServlet {
         ControllerV1 controller = controllerMap.get(request.getRequestURI());
         if(request.getRequestURI() == null){
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            return;
         }
         controller.process(request, response);
     }
