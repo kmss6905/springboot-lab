@@ -42,3 +42,14 @@ v4 : 단순하고 실용적인 컨트롤러
 v5 : 유연한 컨트롤러
 
 프레임워크나 공통기능이 수고로워야 사용하는 개발자가 편리해진다. 
+
+
+### SpringMVC 구조
+1. FrontController -> DispatcherServlet
+2. handlerMappingMap -> HandlerMapping
+3. MyHandlerAdapter -> HandlerAdapter
+4. ModelView -> ModelAndView
+5. viewResolver -> ViewResolver(interface)
+6. MyView -> View(interface)
+
+**DispatcherServlet** 구조
