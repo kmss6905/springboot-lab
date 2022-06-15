@@ -53,3 +53,22 @@ v5 : 유연한 컨트롤러
 6. MyView -> View(interface)
 
 **DispatcherServlet** 구조
+스프링 MVC도 프론트 컨트롤러 패턴으로 구현되어 있음
+* 스프링 부트는 `DispatcherServlet` 을 서블릿으로 자동등록하면서 모든 경로(urlPatterns = "/)에 대해서 매핑한다.
+* 참고 : 더 자세한 경로가 우선순위가 높다. 그래서 기존에 등록한 서블릿도 함께 동작한다.
+
+
+**요청 흐름**
+* 서블릿이 호출되면 `HttpServlet`이 제공하는 `service()` 가 호출된다.
+* 스프링 MVC 는 `DispatcherServlet`의 부모인 `FrameworkServelt`에서 `Service()`를 오버라이드 해두었다.
+* `FrameworkServlet.servie()`를 시작으로 여러 메서드가 호출되면서 `DispatcherServlet` 의 `doDispatch()`가 호출됨
+
+1. 핸들러 조회
+2. 핸들러 어댑터 조회 - 핸들러 처리할 수 있는 어댑터
+3. 핸들러 어댑터 실행 -> 4. 핸들어 어댑터를 통해 핸들러 실행 -> 5. ModelAndView 반환
+
+뷰 랜더링 호출
+
+6. 류 리졸버를 통해서 뷰 찾기
+7. View 반환
+8. 뷰 렌더링
