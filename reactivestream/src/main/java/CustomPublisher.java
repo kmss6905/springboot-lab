@@ -6,6 +6,5 @@ public class CustomPublisher<T> implements Publisher<T> {
 
     @Override
     public void subscribe(Subscriber<? super T> subscriber) {
-
     }
 }

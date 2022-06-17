@@ -61,6 +61,24 @@ public class OrderClient {
         });
     }
 
+    public Mono<JsonNode> get500Error(){
+        return webClient.get()
+                .uri("/v1/orders/status-code/500")
+                .exchangeToMono(response -> {
+                    if (response.statusCode().equals(HttpStatus.OK)) {
+                        return response.bodyToMono(JsonNode.class);
+                    } else {
+                        // 예를 에러로 간주
+                        return response.createException().flatMap(Mono::error);  // mono
+                    }
+                })
+                .onErrorResume(throwable -> {
+                    logger.error("error : {}", throwable.getMessage());
+                    return Mono.empty();
+                })
+                .log();
+    }
+
     private ExchangeFilterFunction logRequest () {
         return (clientRequest, next) -> {
             logger.info("Request: {} {}", clientRequest.method(), clientRequest.url());
