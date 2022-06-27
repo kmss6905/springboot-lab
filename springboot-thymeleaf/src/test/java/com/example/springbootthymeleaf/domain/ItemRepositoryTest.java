@@ -1,23 +1,16 @@
 package com.example.springbootthymeleaf.domain;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
+@DisplayName("Item 리포지토리 테스트")
 class ItemRepositoryTest {
 
     private final ItemRepository itemRepository = new ItemRepository();
-
-    @BeforeEach
-    void beforeEach() {
-
-    }
 
     @Test
     void save() {
@@ -56,20 +49,39 @@ class ItemRepositoryTest {
     void updateItem() {
         // given
         Item item = new Item("만화책", new Money(10), 1);
+        Item saveItem = itemRepository.save(item);
+
+        // when
+        ItemDto itemDto = new ItemDto("소설책", new Money(100), 2);
+        itemRepository.updateItem(saveItem.getId(), itemDto);
+
+        // then
+        Item updatedItem = itemRepository.findById(saveItem.getId());
+
+        assertThat(updatedItem.getItemName()).isEqualTo("소설책");
+        assertThat(updatedItem.getPrice().getValue()).isEqualTo(100);
+        assertThat(updatedItem.getQuantity()).isEqualTo(2);
+    }
+
+    @Test
+    void findAll() {
+        // given
+        Item item = new Item("만화책", new Money(10), 1);
         Item item2 = new Item("만화책", new Money(10), 2);
+        List<Item> givenItems = List.of(item, item2);
         itemRepository.save(item);
         itemRepository.save(item2);
 
         // when
         List<Item> items = itemRepository.findAll();
-    }
 
-    @Test
-    void findAll() {
+        // then
+        assertThat(items).hasSize(2);
+        assertThat(items).containsAll(givenItems);
     }
 
     @AfterEach
     void afterEach() {
-
+        itemRepository.clearStore();
     }
 }

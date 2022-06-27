@@ -39,4 +39,8 @@ public class ItemRepository {
     public List<Item> findAll() {
         return new ArrayList<>(store.values());
     }
+
+    public void clearStore() {
+        store.clear();
+    }
 }
