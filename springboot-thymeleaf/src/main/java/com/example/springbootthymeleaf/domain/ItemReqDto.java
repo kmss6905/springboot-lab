@@ -4,17 +4,14 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-@Setter @Getter @ToString
-public class Item {
-    private Long id;
+@Setter
+@Getter @ToString
+public class ItemReqDto {
     private String itemName;
-    private Money price;
+    private Integer price;
     private Integer quantity;
 
-    public Item() {
-    }
-
-    public Item(String itemName, Money price, Integer quantity) {
+    public ItemReqDto(String itemName, Integer price, Integer quantity) {
         this.itemName = itemName;
         this.price = price;
         this.quantity = quantity;
