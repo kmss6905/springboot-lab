@@ -1,9 +1,6 @@
 package com.example.springbootthymeleaf.web.basic;
 
-import com.example.springbootthymeleaf.domain.Item;
-import com.example.springbootthymeleaf.domain.ItemRepository;
-import com.example.springbootthymeleaf.domain.ItemReqDto;
-import com.example.springbootthymeleaf.domain.Money;
+import com.example.springbootthymeleaf.domain.*;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,10 +8,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
-
 @Controller
 @RequestMapping("/basic/items")
 @RequiredArgsConstructor
@@ -38,10 +35,20 @@ public class BasicItemController {
     }
 
     @GetMapping("/{itemId}/edit")
-    public String edit(@PathVariable long itemId, Model model) {
+    public String editForm(@PathVariable long itemId, Model model) {
         Item item = itemRepository.findById(itemId);
         model.addAttribute("item", item);
         return "basic/editForm";
+    }
+
+    @PostMapping("/{itemId}/edit")
+    public String editItem(@PathVariable Long itemId, ItemReqDto itemReqDto) {
+        ItemDto itemDto = new ItemDto(itemReqDto.getItemName(), new Money(itemReqDto.getPrice()), itemReqDto.getQuantity());
+        itemRepository.updateItem(itemId, itemDto);
+
+        // status : 302
+        // Response Location Header : https://localhost:8080/basic/items/1
+        return "redirect:/basic/items/{itemId}";
     }
 
     @GetMapping("/add")
@@ -50,13 +57,17 @@ public class BasicItemController {
     }
 
     @PostMapping("/add")
-    public String save(@ModelAttribute("item") ItemReqDto itemReqDto) {
-        Item item = new Item();
-        item.setItemName(itemReqDto.getItemName());
-        item.setQuantity(itemReqDto.getQuantity());
-        item.setPrice(new Money(itemReqDto.getPrice()));
-        itemRepository.save(item);
-        return "basic/addForm";
+    public String save(ItemReqDto itemReqDto, RedirectAttributes redirectAttributes, Model model) {
+        Item item = new Item(itemReqDto.getItemName(), new Money(itemReqDto.getPrice()), itemReqDto.getQuantity());
+        Item savedItem = itemRepository.save(item);
+
+        redirectAttributes.addAttribute("itemId", savedItem.getId());
+        redirectAttributes.addAttribute("status", true);
+        model.addAttribute("item", savedItem);
+
+        // PRG, Post/Redirect/GET
+        // url 에 변수를 더해서 사용하는 것은 URL 인코딩이 안되기 때문에 위험하다.
+        return "redirect:/basic/items/{itemId}";
     }
 
     @PostConstruct
