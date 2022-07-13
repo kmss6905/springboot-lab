@@ -1,7 +1,14 @@
 package hello.advanced.trace;
 
+import lombok.ToString;
+
 import java.util.UUID;
 
+/**
+ * TraceID
+ *
+ */
+@ToString
 public class TraceId {
     private String id;
     private int level;
