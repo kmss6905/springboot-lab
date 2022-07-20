@@ -21,7 +21,11 @@ public class OrderControllerV3 {
         TraceStatus status = null;
         try {
             status = trace.begin("OrderController.request()");
+
+            // 비즈니스 로직
             orderService.orderItem(itemId);
+
+
             trace.end(status);
             return "ok";
         } catch (Exception e) {

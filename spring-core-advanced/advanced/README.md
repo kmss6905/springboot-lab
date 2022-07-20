@@ -47,5 +47,63 @@ A유저가 요청이 들어왔다. 상태를 "A-level-1"이라고 바꿔놓았�
 좋은 설계는 변하는 것과 변하지 않는 것을 분리하는 것이다. 
 여기서 핵심기능은 변하고, 로그 추척기를 사용하는 부분은 변하지 않는 부분이다.
 탬플릿 메서드 페턴을 이를 해결하기위한 디자인 패턴이다.
+```java
+@Slf4j
+public class SubClassLogic1 extends AbstractTemplate {
+
+    @Override
+    protected void call() {
+        log.info("비즈니스 로직1 실행");
+    }
+}
+
+public class Service{
+    
+   @Test
+   void serviceTest() {
+      AbstractTemplate template = new SubClassLogic1();
+      template.execute();
+   }
+    
+}
+
+
+```
+
+추가로 익명내부클래스를 사용하여 객체 인스턴스를 생성하면서 동시에 성할 클래스를 상속 받은 자식 클래스를 정의할 수 있다. 
+이렇게 되면 매번 추상 클래스를 상속하는 클래스를 매번 만들 필요가 없게 된다.
+하지만 비즈니스 로직 호출 메서드에 코드가 많아지면 그에 따라 전체적인 코드양도 똑같이 많아지는 단점이 있다.
+```java
+
+    @Test
+    void templateMethodV2() {
+        AbstractTemplate template1 = new AbstractTemplate() {
+            @Override
+            protected void call() {
+                log.info("비즈니스 로직1 실행");
+            }
+        };
+        template1.execute();
+
+        AbstractTemplate template2 = new AbstractTemplate() {
+            @Override
+            protected void call() {
+                log.info("비즈니스 로직2 실행");
+            }
+        };
+        template2.execute();
+    }
+
+```
+
+```text
+실행결과
+
+00:12:53.813 [Test worker] INFO hello.advanced.trace.template.TemplateMethodTest - 비즈니스 로직1 실행
+00:12:53.814 [Test worker] INFO hello.advanced.trace.template.code.AbstractTemplate - elapsedTime=2
+00:12:53.814 [Test worker] INFO hello.advanced.trace.template.TemplateMethodTest - 비즈니스 로직2 실행
+00:12:53.815 [Test worker] INFO hello.advanced.trace.template.code.AbstractTemplate - elapsedTime=1
+
+```
 
 
